@@ -7,10 +7,10 @@ class TwitterClient():
     Twitter Client class
     '''
     # Twitter API's keys and tokens
-    API_KEY = config("API_KEY")
-    API_SECRET_KEY = config("API_SECRET_KEY")
-    ACCESS_TOKEN = config("ACCESS_TOKEN")
-    ACCESS_TOKEN_SECRET = config("ACCESS_TOKEN_SECRET")
+    API_KEY = config('API_KEY')
+    API_SECRET_KEY = config('API_SECRET_KEY')
+    ACCESS_TOKEN = config('ACCESS_TOKEN')
+    ACCESS_TOKEN_SECRET = config('ACCESS_TOKEN_SECRET')
 
     def __init__(self):
         self.auth = tweepy.OAuthHandler(self.API_KEY, self.API_SECRET_KEY)
