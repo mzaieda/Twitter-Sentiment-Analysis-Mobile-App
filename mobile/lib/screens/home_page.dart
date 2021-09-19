@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/components/query_input.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,7 +16,12 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text('Twitter Sentiment Analyzer'),
       ),
-      body: const Text('TODO'),
+      body: Column(
+        children: const <Widget>[
+          QueryInput(),
+          Text("TODO"), // TODO
+        ],
+      ),
     );
   }
 }
