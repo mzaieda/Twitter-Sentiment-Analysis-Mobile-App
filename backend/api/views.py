@@ -6,9 +6,9 @@ from .twitter_client import TwitterClient
 
 
 def get_analysis(request, query):
-    if request.method != "GET":
+    if request.method != 'GET':
         return JsonResponse({
-            "error": "GET request required"
+            'error': 'GET request required'
         }, status=405)
 
     try:
@@ -16,12 +16,14 @@ def get_analysis(request, query):
         client = TwitterClient()
         analyzer = TweetsAnalyzer(client.get_tweets(query, NUM_OF_TWEETS))
     except tweepy.RateLimitError:
+        print('Twitter API rate limit exceeded.')
         return JsonResponse({
-            "error": "Twitter API rate limit exceeded."
+            'error': 'Twitter API rate limit exceeded.'
         }, status=500)
     except tweepy.TweepError as e:
+        print(e)
         return JsonResponse({
-            "error": "Error during the authentication with the Twitter API"
+            'error': 'Error during the authentication with the Twitter API'
         }, status=500)
     
     analysis = analyzer.get_analysis()
