@@ -4,9 +4,14 @@ import 'package:mobile/screens/loading_page.dart';
 
 class SearchesList extends StatefulWidget {
   final List<Query> searches;
+  final Function addToRecent;
+  final Function removeFromRecent;
+  final Function updateFavorites;
   final bool favoritesOnly;
 
-  const SearchesList(this.searches, this.favoritesOnly, {Key? key})
+  const SearchesList(this.searches, this.addToRecent, this.removeFromRecent,
+      this.updateFavorites, this.favoritesOnly,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -15,7 +20,7 @@ class SearchesList extends StatefulWidget {
 
 class _SearchesListState extends State<SearchesList> {
   Widget _displayCard(int index) {
-    return Card(
+    Widget queryCard = Card(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
@@ -26,7 +31,9 @@ class _SearchesListState extends State<SearchesList> {
       ),
       child: InkWell(
         onTap: () {
-          setState(() {}); // TODO
+          setState(() {
+            widget.addToRecent(widget.searches[index].text);
+          });
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -54,7 +61,9 @@ class _SearchesListState extends State<SearchesList> {
               ),
               IconButton(
                 onPressed: () {
-                  setState(() {}); // TODO
+                  setState(() {
+                    widget.updateFavorites(index);
+                  });
                 },
                 icon: Icon(
                   widget.searches[index].favorite
@@ -71,6 +80,30 @@ class _SearchesListState extends State<SearchesList> {
         ),
       ),
     );
+
+    if (widget.favoritesOnly) {
+      return queryCard;
+    } else {
+      return Dismissible(
+        direction: DismissDirection.endToStart,
+        background: Container(
+          alignment: AlignmentDirectional.centerEnd,
+          color: Colors.red,
+          child: const Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        key: Key(widget.searches[index].text),
+        onDismissed: (direction) {
+          widget.removeFromRecent(index);
+        },
+        child: queryCard,
+      );
+    }
   }
 
   @override

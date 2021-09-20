@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/screens/loading_page.dart';
 
 class QueryInput extends StatefulWidget {
-  const QueryInput({Key? key}) : super(key: key);
+  final Function addToRecent;
+  const QueryInput(this.addToRecent, {Key? key}) : super(key: key);
 
   @override
   _QueryInputState createState() => _QueryInputState();
@@ -29,12 +31,12 @@ class _QueryInputState extends State<QueryInput> {
                 onChanged: (text) {
                   setState(() {});
                 },
-                onSubmitted: (text) {}, // TODO
+                onSubmitted: (text) => submit(text),
                 decoration: InputDecoration(
                   hintText: "Type your query here",
                   border: InputBorder.none,
                   suffixIcon: RawMaterialButton(
-                    onPressed: () {}, // TODO
+                    onPressed: () => submit(_textEditingController.text),
                     child: const Icon(
                       Icons.search,
                       color: Colors.blue,
@@ -51,5 +53,18 @@ class _QueryInputState extends State<QueryInput> {
         ),
       ),
     );
+  }
+
+  void submit(String text) {
+    if (text != '') {
+      widget.addToRecent(text);
+      _textEditingController.clear();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingPage(text),
+        ),
+      );
+    }
   }
 }
