@@ -15,8 +15,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _index = 0;
   final Searches _searches = Searches();
-  final LocalStorage _recentStorage = LocalStorage('recent');
-  final LocalStorage _favoritesStorage = LocalStorage('favorites');
+  // final LocalStorage _recentStorage = LocalStorage('recent');
+  // final LocalStorage _favoritesStorage = LocalStorage('favorites');
+  final LocalStorage _storage = LocalStorage('Twitter_Sentiment_Analysis');
 
   @override
   void initState() {
@@ -84,10 +85,20 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       int index = -1;
 
-      // Check if the query was already been searched
+      // Check if the query was already in recent list
       for (int i = 0; i < _searches.recent.length; ++i) {
         if (_searches.recent[i].text == text) {
           index = i;
+          break;
+        }
+      }
+
+      bool favorite = false;
+
+      // Check if the query is already in the favorites list
+      for (int i = 0; i < _searches.favorites.length; ++i) {
+        if (_searches.favorites[i].text == text) {
+          favorite = true;
           break;
         }
       }
@@ -97,7 +108,7 @@ class _HomePageState extends State<HomePage> {
         if (_searches.recent.length >= 30) {
           _searches.recent.removeLast();
         }
-        _searches.recent.insert(0, Query(text: text, favorite: false));
+        _searches.recent.insert(0, Query(text: text, favorite: favorite));
       } else {
         // Otherwise put the query on top of the others
         _searches.recent.insert(0, _searches.recent[index]);
@@ -168,18 +179,21 @@ class _HomePageState extends State<HomePage> {
 
   void _saveToStorage(String type) {
     if (type == 'recent') {
-      _recentStorage.setItem(type, _searches.recentToJsonEncodable());
+      _storage.setItem(type, _searches.recentToJsonEncodable());
     } else if (type == 'favorites') {
-      _favoritesStorage.setItem(type, _searches.favoritesToJsonEncodable());
+      _storage.setItem(type, _searches.favoritesToJsonEncodable());
     }
   }
 
   void _getFromStorage() async {
-    await _recentStorage.ready;
-    await _favoritesStorage.ready;
+    await _storage.ready;
+    List<dynamic> recent = [], favorites = [];
     setState(() {
-      List<dynamic> recent = _recentStorage.getItem('recent') ?? [];
-      List<dynamic> favorites = _favoritesStorage.getItem('favorites') ?? [];
+      recent = _storage.getItem('recent') ?? [];
+    });
+    await _storage.ready;
+    setState(() {
+      favorites = _storage.getItem('favorites') ?? [];
       _searches.fromJson(recent, favorites);
     });
   }
