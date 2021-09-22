@@ -44,6 +44,14 @@ class TweetsAnalyzer():
         '''
         Returns a dictionary with the analysis of the tweets
         '''
+        if self.dataframe.empty:
+            return {
+                'positives': 0.0,
+                'neutrals': 1.0,
+                'negatives': 0.0,
+                'averageLikes': 0.0,
+                'averageRetweets': 0.0,
+            }
         sentiment_count = self.dataframe['sentiment'].value_counts(normalize=True)
         return {
             'positives': sentiment_count.get('1', 0.0),
