@@ -16,12 +16,10 @@ def get_analysis(request, query):
         client = TwitterClient()
         analyzer = TweetsAnalyzer(client.get_tweets(query, NUM_OF_TWEETS))
     except tweepy.RateLimitError:
-        print('Twitter API rate limit exceeded.')
         return JsonResponse({
             'error': 'Twitter API rate limit exceeded.'
         }, status=500)
-    except tweepy.TweepError as e:
-        print(e)
+    except tweepy.TweepError:
         return JsonResponse({
             'error': 'Error during the authentication with the Twitter API'
         }, status=500)
