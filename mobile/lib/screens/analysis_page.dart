@@ -5,8 +5,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class AnalysisPage extends StatefulWidget {
   final Analysis analysis;
+  final String title;
 
-  const AnalysisPage(this.analysis, {Key? key}) : super(key: key);
+  const AnalysisPage(this.title, this.analysis, {Key? key}) : super(key: key);
 
   @override
   _AnalysisPageState createState() => _AnalysisPageState();
@@ -31,7 +32,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Twitter Sentiment Analysis"),
+        title: Text(widget.title),
       ),
       body: Column(
         children: [

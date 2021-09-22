@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         Column(
           children: [
             QueryInput(_addToRecent),
-            const Text("Recent queries (swipe to remove)"),
+            const Text("Recent searches (swipe to remove)"),
             SearchesList(
               _searches.recent,
               _addToRecent,
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
       _saveToStorage('recent');
     });
     ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("query removed")));
+        .showSnackBar(const SnackBar(content: Text("Removed from recent")));
   }
 
   void _updateFavorite(int index) {

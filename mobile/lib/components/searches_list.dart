@@ -30,17 +30,7 @@ class _SearchesListState extends State<SearchesList> {
         top: 10,
       ),
       child: InkWell(
-        onTap: () {
-          setState(() {
-            widget.addToRecent(widget.searches[index].text);
-          });
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LoadingPage(widget.searches[index].text),
-            ),
-          );
-        },
+        onTap: () => submit(widget.searches[index].text),
         child: Container(
           height: 80,
           padding: const EdgeInsets.only(
@@ -112,6 +102,18 @@ class _SearchesListState extends State<SearchesList> {
       child: ListView.builder(
         itemCount: widget.searches.length,
         itemBuilder: (BuildContext context, int index) => _displayCard(index),
+      ),
+    );
+  }
+
+  void submit(String text) {
+    setState(() {
+      widget.addToRecent(text);
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoadingPage(text),
       ),
     );
   }
