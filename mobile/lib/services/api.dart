@@ -8,7 +8,7 @@ Future<Analysis> fetchApi(String query) async {
   final String url = 'http://10.0.2.2:8000/api/$query';
 
   final response = await http.get(Uri.parse(url)).timeout(
-    const Duration(seconds: 8),
+    const Duration(seconds: 10),
     onTimeout: () {
       throw (TimeoutException);
     },
