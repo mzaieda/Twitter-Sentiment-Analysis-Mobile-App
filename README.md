@@ -4,7 +4,7 @@ A sentiment analysis mobile app built with Flutter (front-end) and Django (back-
 It allows you to search for a phrase and shows you the sentiment of the tweets that match the given query.
 
 ## Demo
-![Demo of the app](assets/TwitterSentimentAnalysisDemo.gif)
+<img src="assets/TwitterSentimentAnalysisDemo.gif" alt="App demo" height="400"/>
 
 ## Setup
 Here's how you can configure the [back-end](backend/README.md) and the [front-end](mobile/README.md).
@@ -44,6 +44,6 @@ python manage.py runserver 0.0.0.0:8000
 ## Disclaimer
 This app does **not** give a comprehensive view about the sentiment of the Twitter users, in fact it just analyses a very small portion of tweets.
 
-This app has meant to be for educational purposes only, you can clone/fork/change it as you wish and practise with it.
+The app has meant to be for educational purposes only, you can clone/fork/change it as you wish and practise with it.
 
 **Do not** use it if you need accurate analysis of the sentiment.

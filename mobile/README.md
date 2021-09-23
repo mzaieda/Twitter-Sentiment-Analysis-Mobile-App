@@ -1,5 +1,5 @@
 ## Setup
-Make sure you have Flutter installed on your system. To make sure everything is set up you can run:
+Make sure you have Flutter installed on your system. To verify that everything is set up you can run:
 
 ```
 flutter doctor

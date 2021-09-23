@@ -3,7 +3,7 @@
 
 First of all you need a [*Twitter Developer Account*](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api). After finishing the registration process, you will have to create a project and an app inside the Developer Platform.
 
-Once your request has been approved you'll have access to the *API Key*, *API Key Secret*, *Bearer Token*, *Access Token*, *Access Token Secret*. Make sure to save these credentials.
+Once your request has been approved you'll have access to the *API Key*, *API Key Secret*, *Bearer Token*, *Access Token*, *Access Token Secret*. You need to save these credentials.
 
 Make sure you have Python installed on your system and consider using a virtual environment for the project.
 
