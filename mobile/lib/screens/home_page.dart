@@ -13,10 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final int maxRecentQueries = 30;
   int _index = 0;
   final Searches _searches = Searches();
-  // final LocalStorage _recentStorage = LocalStorage('recent');
-  // final LocalStorage _favoritesStorage = LocalStorage('favorites');
   final LocalStorage _storage = LocalStorage('Twitter_Sentiment_Analysis');
 
   @override
@@ -83,52 +82,36 @@ class _HomePageState extends State<HomePage> {
 
   void _addToRecent(String text) {
     setState(() {
-      int index = -1;
+      int recentIndex = _searches.findQueryInRecent(text);
+      int favoritesIndex = _searches.findQueryInFavorites(text);
+      bool favorite = (favoritesIndex == -1 ? false : true);
 
-      // Check if the query was already in recent list
-      for (int i = 0; i < _searches.recent.length; ++i) {
-        if (_searches.recent[i].text == text) {
-          index = i;
-          break;
-        }
-      }
-
-      bool favorite = false;
-
-      // Check if the query is already in the favorites list
-      for (int i = 0; i < _searches.favorites.length; ++i) {
-        if (_searches.favorites[i].text == text) {
-          favorite = true;
-          break;
-        }
-      }
-
-      if (index == -1) {
+      if (recentIndex == -1) {
         // If the query is new add it to the queries list
-        if (_searches.recent.length >= 30) {
+        if (_searches.recent.length >= maxRecentQueries) {
           _searches.recent.removeLast();
         }
         _searches.recent.insert(0, Query(text: text, favorite: favorite));
       } else {
         // Otherwise put the query on top of the others
-        _searches.recent.insert(0, _searches.recent[index]);
-        _searches.recent.removeAt(index + 1);
+        _searches.recent.insert(0, _searches.recent[recentIndex]);
+        _searches.recent.removeAt(recentIndex + 1);
       }
     });
 
-    _saveToStorage('recent');
+    _saveRecentToStorage();
   }
 
   void _addToFavorite(Query query) {
     _searches.favorites.add(Query(text: query.text, favorite: true));
-    _saveToStorage('favorites');
+    _saveFavoritesToStorage();
   }
 
   void _removeFromRecent(int index) {
     setState(() {
       _searches.recent.removeAt(index);
-      _saveToStorage('recent');
     });
+    _saveRecentToStorage();
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text("Removed from recent")));
   }
@@ -139,14 +122,9 @@ class _HomePageState extends State<HomePage> {
 
       if (query.favorite) {
         // If the query was favorite, remove it from favorites list
-        for (int i = 0; i < _searches.favorites.length; ++i) {
-          if (_searches.favorites[i].text == query.text &&
-              _searches.favorites[i].favorite == query.favorite) {
-            _searches.favorites.removeAt(i);
-            _saveToStorage('favorites');
-            break;
-          }
-        }
+        _searches.favorites
+            .removeAt(_searches.findQueryInFavorites(query.text));
+        _saveFavoritesToStorage();
       } else {
         // Otherwise add it to favorites list
         _addToFavorite(query);
@@ -154,46 +132,45 @@ class _HomePageState extends State<HomePage> {
 
       // Change the favorites state of the Query
       _searches.recent[index].favorite = !_searches.recent[index].favorite;
-      _saveToStorage('recent');
+      _saveRecentToStorage();
     });
   }
 
   void _removeFavorite(int index) {
     setState(() {
       Query query = _searches.favorites[index];
+      int recentIndex = _searches.findQueryInRecent(query.text);
 
-      // If the query is also in recent, update its state
-      for (int i = 0; i < _searches.recent.length; ++i) {
-        if (_searches.recent[i].text == query.text &&
-            _searches.recent[i].favorite == query.favorite) {
-          _searches.recent[i].favorite = !_searches.recent[i].favorite;
-          _saveToStorage('recent');
-          break;
-        }
+      if (recentIndex != -1) {
+        // If the query is also in recent, update its state
+        _searches.recent[recentIndex].favorite =
+            !_searches.recent[recentIndex].favorite;
+        _saveRecentToStorage();
       }
 
       _searches.favorites.removeAt(index);
-      _saveToStorage('favorites');
+      _saveFavoritesToStorage();
     });
   }
 
-  void _saveToStorage(String type) {
-    if (type == 'recent') {
-      _storage.setItem(type, _searches.recentToJsonEncodable());
-    } else if (type == 'favorites') {
-      _storage.setItem(type, _searches.favoritesToJsonEncodable());
-    }
+  void _saveRecentToStorage() {
+    _storage.setItem('recent', _searches.recentToJsonEncodable());
+  }
+
+  void _saveFavoritesToStorage() {
+    _storage.setItem('favorites', _searches.favoritesToJsonEncodable());
   }
 
   void _getFromStorage() async {
-    await _storage.ready;
     List<dynamic> recent = [], favorites = [];
-    setState(() {
-      recent = _storage.getItem('recent') ?? [];
-    });
+
     await _storage.ready;
+    recent = _storage.getItem('recent') ?? [];
+
+    await _storage.ready;
+    favorites = _storage.getItem('favorites') ?? [];
+
     setState(() {
-      favorites = _storage.getItem('favorites') ?? [];
       _searches.fromJson(recent, favorites);
     });
   }
