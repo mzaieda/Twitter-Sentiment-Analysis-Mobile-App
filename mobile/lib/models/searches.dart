@@ -27,7 +27,8 @@ class Searches {
   favoritesToJsonEncodable() =>
       favorites.map((query) => query.toJsonEncodable()).toList();
 
-  void fromJson(List<dynamic> recent, List<dynamic> favorites) {
+  void fromJson(
+      {required List<dynamic> recent, required List<dynamic> favorites}) {
     this.recent = recent.map((json) => Query.fromJson(json)).toList();
     this.favorites = favorites.map((json) => Query.fromJson(json)).toList();
   }

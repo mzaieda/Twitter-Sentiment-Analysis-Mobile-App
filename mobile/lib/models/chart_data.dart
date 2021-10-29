@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 
 class ChartData {
-  ChartData(this.x, this.y, this.label, this.color);
   final String x;
   final double y;
   final String label;
   final Color color;
 
+  ChartData({
+    required this.x,
+    required this.y,
+    required this.label,
+    required this.color,
+  });
+
   factory ChartData.fromPositives(double positives) => ChartData(
-        "Positives",
-        positives,
-        "${(positives * 100).toStringAsFixed(2)}%",
-        Colors.green,
+        x: "Positives",
+        y: positives,
+        label: "${(positives * 100).toStringAsFixed(2)}%",
+        color: Colors.green,
       );
 
   factory ChartData.fromNeutrals(double neutrals) => ChartData(
-        "Neutrals",
-        neutrals,
-        "${(neutrals * 100).toStringAsFixed(2)}%",
-        Colors.grey,
+        x: "Neutrals",
+        y: neutrals,
+        label: "${(neutrals * 100).toStringAsFixed(2)}%",
+        color: Colors.grey,
       );
 
   factory ChartData.fromNegatives(double negatives) => ChartData(
-        "Negatives",
-        negatives,
-        "${(negatives * 100).toStringAsFixed(2)}%",
-        Colors.red,
+        x: "Negatives",
+        y: negatives,
+        label: "${(negatives * 100).toStringAsFixed(2)}%",
+        color: Colors.red,
       );
 }

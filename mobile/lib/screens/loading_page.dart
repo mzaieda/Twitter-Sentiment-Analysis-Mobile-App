@@ -20,7 +20,8 @@ class _LoadingPageState extends State<LoadingPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => AnalysisPage(widget.text, analysis),
+            builder: (context) =>
+                AnalysisPage(title: widget.text, analysis: analysis),
           ),
         );
       },

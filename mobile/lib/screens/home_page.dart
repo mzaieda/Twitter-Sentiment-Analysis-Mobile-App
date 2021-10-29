@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final int maxRecentQueries = 30;
+  final int _maxRecentQueries = 30;
   int _index = 0;
   final Searches _searches = Searches();
   final LocalStorage _storage = LocalStorage('Twitter_Sentiment_Analysis');
@@ -34,14 +34,14 @@ class _HomePageState extends State<HomePage> {
       body: <Widget>[
         Column(
           children: [
-            QueryInput(_addToRecent),
+            QueryInput(addToRecent: _addToRecent),
             const Text("Recent searches (swipe to remove)"),
             SearchesList(
-              _searches.recent,
-              _addToRecent,
-              _removeFromRecent,
-              _updateFavorite,
-              false,
+              searches: _searches.recent,
+              addToRecent: _addToRecent,
+              removeFromRecent: _removeFromRecent,
+              updateFavorites: _updateFavorite,
+              favoritesOnly: false,
               key: const Key("all"),
             ),
           ],
@@ -49,11 +49,10 @@ class _HomePageState extends State<HomePage> {
         Column(
           children: [
             SearchesList(
-              _searches.favorites,
-              _addToRecent,
-              () {},
-              _removeFavorite,
-              true,
+              searches: _searches.favorites,
+              addToRecent: _addToRecent,
+              updateFavorites: _removeFromFavorite,
+              favoritesOnly: true,
               key: const Key("favorites"),
             ),
           ],
@@ -88,7 +87,7 @@ class _HomePageState extends State<HomePage> {
 
       if (recentIndex == -1) {
         // If the query is new add it to the queries list
-        if (_searches.recent.length >= maxRecentQueries) {
+        if (_searches.recent.length >= _maxRecentQueries) {
           _searches.recent.removeLast();
         }
         _searches.recent.insert(0, Query(text: text, favorite: favorite));
@@ -116,6 +115,23 @@ class _HomePageState extends State<HomePage> {
         .showSnackBar(const SnackBar(content: Text("Removed from recent")));
   }
 
+  void _removeFromFavorite(int index) {
+    setState(() {
+      Query query = _searches.favorites[index];
+      int recentIndex = _searches.findQueryInRecent(query.text);
+
+      if (recentIndex != -1) {
+        // If the query is also in recent, update its state
+        _searches.recent[recentIndex].favorite =
+            !_searches.recent[recentIndex].favorite;
+        _saveRecentToStorage();
+      }
+
+      _searches.favorites.removeAt(index);
+      _saveFavoritesToStorage();
+    });
+  }
+
   void _updateFavorite(int index) {
     setState(() {
       Query query = _searches.recent[index];
@@ -133,23 +149,6 @@ class _HomePageState extends State<HomePage> {
       // Change the favorites state of the Query
       _searches.recent[index].favorite = !_searches.recent[index].favorite;
       _saveRecentToStorage();
-    });
-  }
-
-  void _removeFavorite(int index) {
-    setState(() {
-      Query query = _searches.favorites[index];
-      int recentIndex = _searches.findQueryInRecent(query.text);
-
-      if (recentIndex != -1) {
-        // If the query is also in recent, update its state
-        _searches.recent[recentIndex].favorite =
-            !_searches.recent[recentIndex].favorite;
-        _saveRecentToStorage();
-      }
-
-      _searches.favorites.removeAt(index);
-      _saveFavoritesToStorage();
     });
   }
 
@@ -171,7 +170,7 @@ class _HomePageState extends State<HomePage> {
     favorites = _storage.getItem('favorites') ?? [];
 
     setState(() {
-      _searches.fromJson(recent, favorites);
+      _searches.fromJson(recent: recent, favorites: favorites);
     });
   }
 }

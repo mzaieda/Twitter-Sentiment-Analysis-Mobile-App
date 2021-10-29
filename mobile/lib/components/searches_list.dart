@@ -5,13 +5,17 @@ import 'package:mobile/screens/loading_page.dart';
 class SearchesList extends StatefulWidget {
   final List<Query> searches;
   final Function addToRecent;
-  final Function removeFromRecent;
+  final Function? removeFromRecent;
   final Function updateFavorites;
   final bool favoritesOnly;
 
-  const SearchesList(this.searches, this.addToRecent, this.removeFromRecent,
-      this.updateFavorites, this.favoritesOnly,
-      {Key? key})
+  const SearchesList(
+      {required this.searches,
+      required this.addToRecent,
+      this.removeFromRecent,
+      required this.updateFavorites,
+      required this.favoritesOnly,
+      Key? key})
       : super(key: key);
 
   @override
@@ -89,7 +93,7 @@ class _SearchesListState extends State<SearchesList> {
         ),
         key: Key(widget.searches[index].text),
         onDismissed: (direction) {
-          widget.removeFromRecent(index);
+          widget.removeFromRecent!(index);
         },
         child: queryCard,
       );

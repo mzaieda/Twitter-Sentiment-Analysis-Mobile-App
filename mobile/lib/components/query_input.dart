@@ -3,7 +3,7 @@ import 'package:mobile/screens/loading_page.dart';
 
 class QueryInput extends StatefulWidget {
   final Function addToRecent;
-  const QueryInput(this.addToRecent, {Key? key}) : super(key: key);
+  const QueryInput({required this.addToRecent, Key? key}) : super(key: key);
 
   @override
   _QueryInputState createState() => _QueryInputState();

@@ -4,10 +4,14 @@ import 'package:mobile/models/chart_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class AnalysisPage extends StatefulWidget {
-  final Analysis analysis;
   final String title;
+  final Analysis analysis;
 
-  const AnalysisPage(this.title, this.analysis, {Key? key}) : super(key: key);
+  const AnalysisPage({
+    required this.title,
+    required this.analysis,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _AnalysisPageState createState() => _AnalysisPageState();
