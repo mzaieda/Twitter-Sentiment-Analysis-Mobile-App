@@ -25,7 +25,7 @@ class TweetsAnalyzer():
         '''
         return ' '.join(re.sub('(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)', ' ', tweet).split())
 
-    def get_sentiment(self, tweet: str) -> int:
+    def get_sentiment(self, tweet: str) -> str:
         '''
         Analyzes the tweet and returns:
         1 if it's positive,
