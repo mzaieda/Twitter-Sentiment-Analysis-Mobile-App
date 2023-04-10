@@ -62,7 +62,7 @@ class _LoadingPageState extends State<LoadingPage> {
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(
-              _error ? "Error during the analysis." : "Analysing the tweets...",
+              _error ? "Error." : "Analysing the tweet...",
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,

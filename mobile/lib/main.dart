@@ -14,9 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color.fromARGB(255, 186, 255, 188), // sets the primary color for the theme
+      ),
+      debugShowCheckedModeBanner: false,
       title: 'Twitter Sentiment Analyzer',
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

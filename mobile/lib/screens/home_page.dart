@@ -28,23 +28,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
         centerTitle: true,
-        title: const Text("Twitter Sentiment Analysis"),
+        title: const Text("Twitter Sentiment Analysis - ML Spring 2023"),
       ),
       body: <Widget>[
-        Column(
-          children: [
-            QueryInput(addToRecent: _addToRecent),
-            const Text("Recent searches (swipe to remove)"),
-            SearchesList(
-              searches: _searches.recent,
-              addToRecent: _addToRecent,
-              removeFromRecent: _removeFromRecent,
-              updateFavorites: _updateFavorite,
-              favoritesOnly: false,
-              key: const Key("all"),
-            ),
-          ],
+        Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // centers the children vertically
+            children: [
+              QueryInput(addToRecent: _addToRecent),
+              const Text("Recent searches (swipe to remove)"),
+              SearchesList(
+                searches: _searches.recent,
+                addToRecent: _addToRecent,
+                removeFromRecent: _removeFromRecent,
+                updateFavorites: _updateFavorite,
+                favoritesOnly: false,
+                key: const Key("all"),
+              ),
+            ],
+          ),
         ),
         Column(
           children: [
