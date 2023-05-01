@@ -36,5 +36,4 @@ def get_analysis(request, query):
     df = get_datetime()
     analysis = preprocess(query, df)
 
-    
     return JsonResponse(analysis, status=200)
