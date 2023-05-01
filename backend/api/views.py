@@ -1,5 +1,7 @@
 from django.http import JsonResponse
-from preprocess import *
+import pytz
+import datetime
+from api.preprocess import *
 
 def get_datetime():
     # get the current datetime in UTC

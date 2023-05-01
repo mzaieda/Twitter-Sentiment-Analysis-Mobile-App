@@ -1,6 +1,4 @@
-import datetime
 import pandas as pd
-import pytz
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,6 +10,7 @@ from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 from string import ascii_lowercase
 from nltk.probability import FreqDist
+import joblib
 
 # Function to expand contractions in each text
 def expand_contractions(text):
@@ -121,8 +120,10 @@ def preprocess(tweet, df):
     clean_df = df.join(days_one_encoded).join(hour_one_encoded)
     clean_df.drop(columns=['day','hour'], inplace=True)
 
-    return {'positives': 0.0,
-                'neutrals': 1.0,
-                'negatives': 0.0,
-                'averageLikes': 0.0,
-                'averageRetweets': 0.0,}
+    # final_model = joblib.load("/Users/zaieda/Desktop/Twitter-Sentiment-Analysis-Mobile-App/backend/api/model.joblib")
+    # y_pred= final_model.predict()
+    predpos = 0.8
+    predneg = 0.2
+    print(clean_df)
+    return {'positives': predpos,
+            'negatives': predneg,}
