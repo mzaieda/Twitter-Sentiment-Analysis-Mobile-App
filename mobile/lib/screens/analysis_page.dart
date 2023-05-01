@@ -26,7 +26,6 @@ class _AnalysisPageState extends State<AnalysisPage> {
   void initState() {
     super.initState();
     _data.add(ChartData.fromPositives(widget.analysis.positives));
-    _data.add(ChartData.fromNeutrals(widget.analysis.neutrals));
     _data.add(ChartData.fromNegatives(widget.analysis.negatives));
     _setSentiment();
   }
@@ -40,48 +39,6 @@ class _AnalysisPageState extends State<AnalysisPage> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 25, left: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  "Average Likes: ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                ),
-                Text(
-                  widget.analysis.averageLikes.toStringAsFixed(2),
-                  style: const TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 25, left: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  "Average Retweets: ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                ),
-                Text(
-                  widget.analysis.averageRetweets.toStringAsFixed(2),
-                  style: const TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.only(top: 25, left: 20),
             child: Column(
