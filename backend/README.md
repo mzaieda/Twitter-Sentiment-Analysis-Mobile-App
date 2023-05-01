@@ -42,7 +42,7 @@ python manage.py runserver
 Or if you want to use it on your local network (e.g. for your smartphone):
 
 ```
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 ```
 
 In this case, be sure that your firewall doesn't block any incoming package.
