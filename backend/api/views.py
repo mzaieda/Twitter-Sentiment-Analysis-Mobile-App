@@ -1,8 +1,5 @@
 from django.http import JsonResponse
-import tweepy
 
-from .tweets_analyzer import TweetsAnalyzer
-from .twitter_client import TwitterClient
 
 
 def get_analysis(request, query):
@@ -11,18 +8,22 @@ def get_analysis(request, query):
             'error': 'GET request required'
         }, status=405)
 
-    try:
-        NUM_OF_TWEETS = 50
-        client = TwitterClient()
-        analyzer = TweetsAnalyzer(client.get_tweets(query, NUM_OF_TWEETS))
-    except tweepy.RateLimitError:
-        return JsonResponse({
-            'error': 'Twitter API rate limit exceeded.'
-        }, status=500)
-    except tweepy.TweepError:
-        return JsonResponse({
-            'error': 'Error during the authentication with the Twitter API'
-        }, status=500)
+    # try:
+    #     NUM_OF_TWEETS = 50
+    #     client = TwitterClient()
+    #     analyzer = TweetsAnalyzer(client.get_tweets(query, NUM_OF_TWEETS))
+    # except tweepy.RateLimitError:
+    #     return JsonResponse({
+    #         'error': 'Twitter API rate limit exceeded.'
+    #     }, status=500)
+    # except tweepy.TweepError:
+    #     return JsonResponse({
+    #         'error': 'Error during the authentication with the Twitter API'
+    #     }, status=500)
     
-    analysis = analyzer.get_analysis()
+    analysis = {'positives': 0.0,
+                'neutrals': 1.0,
+                'negatives': 0.0,
+                'averageLikes': 0.0,
+                'averageRetweets': 0.0,}
     return JsonResponse(analysis, status=200)

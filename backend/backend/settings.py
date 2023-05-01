@@ -84,7 +84,7 @@ DATABASES = {
     }
 }
 
-
+SECRET_KEY  = 'rn!8e&md0pri#=e7^hmvo#@hw#s6ubhw)y0tcm7+fd7$3qh)83'
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
