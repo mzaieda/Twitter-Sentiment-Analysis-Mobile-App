@@ -8,9 +8,6 @@ def get_analysis(request, query):
             'error': 'GET request required'
         }, status=405)
     
-    analysis = {'positives': 0.0,
-                'neutrals': 0.5,
-                'negatives': 0.3,
-                'averageLikes': 0.0,
-                'averageRetweets': 0.0,}
+    analysis = {'positives': 0.7,
+                'negatives': 0.3,}
     return JsonResponse(analysis, status=200)

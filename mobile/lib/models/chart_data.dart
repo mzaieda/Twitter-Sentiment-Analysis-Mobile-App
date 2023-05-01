@@ -20,13 +20,6 @@ class ChartData {
         color: Colors.green,
       );
 
-  factory ChartData.fromNeutrals(double neutrals) => ChartData(
-        x: "Neutrals",
-        y: neutrals,
-        label: "${(neutrals * 100).toStringAsFixed(2)}%",
-        color: Colors.grey,
-      );
-
   factory ChartData.fromNegatives(double negatives) => ChartData(
         x: "Negatives",
         y: negatives,
